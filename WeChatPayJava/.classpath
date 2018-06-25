@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="libs/AndroidPlugin.jar"/>
+	<classpathentry kind="lib" path="libs/MyUnityPlayerActivity.jar"/>
+	<classpathentry kind="lib" path="libs/wechat-sdk-android-with-mta.jar"/>
+	<classpathentry kind="lib" path="libs/android-stubs-src.jar"/>
+	<classpathentry kind="lib" path="libs/android.jar"/>
+	<classpathentry kind="lib" path="libs/uiautomator.jar"/>
+	<classpathentry kind="lib" path="libs/unity-classes.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

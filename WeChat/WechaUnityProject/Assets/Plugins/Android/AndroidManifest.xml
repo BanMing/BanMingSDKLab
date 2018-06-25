@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
+    package="com.suixinplay.base"
+    android:versionCode="1"
+    android:versionName="1.0" >  
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.VIBRATE"/>  
+  <!-- <application> -->
+  <application android:icon="@drawable/app_icon" android:label="@string/app_name"> 
+    <activity android:name="com.suixinplay.base.MyMainActivity" android:label="@string/app_name" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"> 
+      <intent-filter> 
+        <action android:name="android.intent.action.MAIN"/>  
+        <category android:name="android.intent.category.LAUNCHER"/> 
+      </intent-filter> 
+    </activity> 
+    <!-- 微信回调界面 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true" />
+  </application> 
+</manifest>
