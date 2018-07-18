@@ -66,8 +66,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private void OnPayResp(BaseResp baseResp) {
         if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
             //支付成功
+            UnityPlayer.UnitySendMessage("WeChatManager", "WxPayCallBack", "ok");
         } else {
             //支付失败
+            UnityPlayer.UnitySendMessage("WeChatManager", "WxPayCallBack", "error");
         }
     }
 
@@ -75,10 +77,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private void OnShareResp(BaseResp baseResp) {
         if (baseResp.errCode == BaseResp.ErrCode.ERR_OK) {
             //分享成功
-            UnityPlayer.UnitySendMessage("AndroidTest", "AndroidCall", "分享成功");
+//            UnityPlayer.UnitySendMessage("AndroidTest", "AndroidCall", "分享成功");
+            UnityPlayer.UnitySendMessage("WeChatManager", "ShareCallBack", "ok");
         } else {
             //分享失败
-            UnityPlayer.UnitySendMessage("AndroidTest", "AndroidCall", "分享失败");
+//            UnityPlayer.UnitySendMessage("AndroidTest", "AndroidCall", "分享失败");
+            UnityPlayer.UnitySendMessage("WeChatManager", "ShareCallBack", "error");
         }
         finish();
     }
@@ -93,12 +97,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 break;
             //取消或者失败
             default:
+                UnityPlayer.UnitySendMessage("WeChatManager", "LogInCallBack", "error");
                 break;
         }
     }
 
     //这里直接使用unity中的webrequest,不使用安卓中的webrequest，这样就可以不再写ios的webrequest
     private void GetUserInfo(String code) {
-        UnityPlayer.UnitySendMessage("AndroidTest", "GetAccessToken", code);
+//        UnityPlayer.UnitySendMessage("AndroidTest", "GetAccessToken", code);
+        UnityPlayer.UnitySendMessage("WeChatManager", "LogInCallBack", code);
     }
 }

@@ -14,8 +14,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.unity3d.player.UnityPlayer;
 
-import java.io.File;
-
 public class WXSender {
     public IWXAPI api;
 
@@ -28,6 +26,10 @@ public class WXSender {
 
     public void Init(Activity activity) {
         api = WXAPIFactory.createWXAPI(activity, Constants.APP_ID);
+    }
+
+    //注册微信
+    public void RegisterApp(String appId) {
         api.registerApp(Constants.APP_ID);
     }
 
@@ -117,10 +119,10 @@ public class WXSender {
     }
 
     //微信支付
-    public void WeChatPay(String openId, String packageValue, String nonceStr, String partnerId, String prepayId, String sign, String timeStamp) {
+    public void WeChatPay(String partnerId, String prepayId, String packageValue, String nonceStr, String timeStamp, String sign) {
         PayReq req = new PayReq();
         req.appId = Constants.APP_ID;
-        req.openId = openId;
+//        req.openId = openId;
         req.packageValue = packageValue;
         req.nonceStr = nonceStr;
         req.partnerId = partnerId;

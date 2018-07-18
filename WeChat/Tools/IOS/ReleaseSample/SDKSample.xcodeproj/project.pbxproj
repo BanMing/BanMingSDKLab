@@ -181,7 +181,6 @@
 				7A1966341B552EFD00931076 /* RespForWeChatViewController.h */,
 				7A1966351B552EFD00931076 /* RespForWeChatViewController.mm */,
 				7A1966361B552EFD00931076 /* SendMsgToWeChatViewController.h */,
-				7A1966371B552EFD00931076 /* SendMsgToWeChatViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = SOURCE_ROOT;
@@ -218,6 +217,7 @@
 				C94C70B31FEB9449004DA2E7 /* WechtSDK1.8.2_NoPay */,
 				C6E11F4C15333879009E8803 /* Resources */,
 				F05029A31505F71800C3E5E5 /* SDKSample */,
+				7A1966371B552EFD00931076 /* SendMsgToWeChatViewController.m */,
 				F050299C1505F71800C3E5E5 /* Frameworks */,
 				F050299A1505F71700C3E5E5 /* Products */,
 			);
@@ -519,7 +519,7 @@
 					"-Objc",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tencent.wc.xin.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.wc.xin.SDKSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -549,7 +549,7 @@
 					"-Objc",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tencent.wc.xin.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.wc.xin.SDKSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
