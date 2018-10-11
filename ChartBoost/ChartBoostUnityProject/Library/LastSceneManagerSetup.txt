@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Chartboost/Examples/ChartboostExample/ChartboostExample.unity
+  isLoaded: 1
+  isActive: 1
