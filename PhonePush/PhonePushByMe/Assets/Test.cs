@@ -10,9 +10,10 @@ public class Test : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        phonePush = new AndroidJavaClass("com.unityplugin.phonepush.PhonePushMgr");
-        AndroidJavaClass Player = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        activity = Player.GetStatic<AndroidJavaObject>("currentActivity");
+        Debug.Log("<color=red>aaaaa</color>");
+        // phonePush = new AndroidJavaClass("com.unityplugin.phonepush.PhonePushMgr");
+        // AndroidJavaClass Player = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        // activity = Player.GetStatic<AndroidJavaObject>("currentActivity");
     }
 
     // Update is called once per frame
