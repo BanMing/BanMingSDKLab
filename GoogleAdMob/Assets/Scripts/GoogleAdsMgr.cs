@@ -15,11 +15,6 @@ public class GoogleAdsMgr : MonoBehaviour
     private InterstitialAd interstitialAd;
     private RewardBasedVideoAd rewardBasedVideoAd;
     private bool isBannerLoaded = false;
-    public GameObject debugCanvs;
-    void Awake()
-    {
-        debugCanvs.SetActive(true);
-    }
 
     // Use this for initialization
     void Start()
@@ -186,7 +181,6 @@ public class GoogleAdsMgr : MonoBehaviour
     ////////////////////////////////////////////回调/////////////////////////////////////////////////////
     private void BannerAdLeavingApplication(object sender, EventArgs e)
     {
-        //  
         DebugInfo("BannerAdLeavingApplication");
     }
 
@@ -227,58 +221,52 @@ public class GoogleAdsMgr : MonoBehaviour
 #if UNITY_IOS
         interstitialAd = null;
 #endif
+        LoadInterstitialAd();
     }
 
     private void OnInterstitialAdFailedToLoad(object sender, AdFailedToLoadEventArgs e)
     {
-        //  
         DebugInfo("OnInterstitialAdFailedToLoad");
+        LoadInterstitialAd();
     }
 
     private void OnInterstitialAdLoaded(object sender, EventArgs e)
-    {
-        //  
+    { 
         DebugInfo("OnInterstitialAdLoaded");
     }
     private void OnRewardBaseVideoAdLeavingApplication(object sender, EventArgs e)
     {
-
         DebugInfo("OnRewardBaseVideoAdLeavingApplication");
     }
 
     private void OnRewardBaseVideoAdClosed(object sender, EventArgs e)
     {
-
         DebugInfo("OnRewardBaseVideoAdClosed");
     }
 
     private void OnRewardBaseVideoAdRewarded(object sender, Reward e)
     {
-
         DebugInfo("OnRewardBaseVideoAdRewarded");
     }
 
     private void OnRewardBaseVideoAdStarted(object sender, EventArgs e)
     {
-
+        LoadRewardBasedVideo();
         DebugInfo("OnRewardBaseVideoAdStarted");
     }
 
     private void OnRewardBaseVideoAdOpening(object sender, EventArgs e)
     {
-
         DebugInfo("OnRewardBaseVideoAdOpening");
     }
 
     private void OnRewardBaseVideoAdFailedToLoad(object sender, AdFailedToLoadEventArgs e)
     {
-        //  
         DebugInfo("OnRewardBaseVideoAdFailedToLoad");
     }
 
     private void OnRewardBaseVideoAdLoad(object sender, EventArgs e)
     {
-        //  
         DebugInfo("OnRewardBaseVideoAdLoad");
     }
     private void DebugInfo(string str)
