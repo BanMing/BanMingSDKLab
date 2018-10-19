@@ -1,6 +1,10 @@
 */[Ll]ibrary/
 */[Tt]emp/
 */[Oo]bj/
+
+*/*/[Ll]ibrary/
+*/*/[Tt]emp/
+*/*/[Oo]bj/
 [Bb]uild/
 [Bb]uilds/
 Assets/AssetStoreTools*
@@ -37,6 +41,4 @@ sysinfo.txt
 #*.unitypackage
 =======
 *.unitypackage
->>>>>>> ecd8f145d65566eaee95280567b1c4f42fadadf3
-/GoogleAdMob/obj
-/NativeShare/UnityNativeShareProject
+
