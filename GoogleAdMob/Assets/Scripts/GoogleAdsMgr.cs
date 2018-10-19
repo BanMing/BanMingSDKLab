@@ -17,20 +17,17 @@ public class GoogleAdsMgr : MonoBehaviour
     private bool isBannerLoaded = false;
     void Awake()
     {
-
+        InitAdMob();
     }
 
     // Use this for initialization
     void Start()
     {
-
+        LoadBanner();
+        LoadInterstitialAd();
+        LoadRewardBasedVideo();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    //初始化sdk
     private void InitAdMob()
     {
 #if UNITY_IOS
@@ -51,8 +48,12 @@ public class GoogleAdsMgr : MonoBehaviour
         adRequest = new AdRequest.Builder().Build();
         interstitialAd = new InterstitialAd(interstitialId);
         this.rewardBasedVideoAd = RewardBasedVideoAd.Instance;
-    }
+        RegisterBannerAdAction();
+        RegisterInterstitialAdAction();
+        RegisterRewardedVideoAdAction();
 
+    }
+    //注册横幅回调
     private void RegisterBannerAdAction()
     {
         bannerView.OnAdLoaded += BannerAdOnAdLoaded;
@@ -62,6 +63,7 @@ public class GoogleAdsMgr : MonoBehaviour
         bannerView.OnAdLeavingApplication += BannerAdLeavingApplication;
     }
 
+    //注册插页回调
     private void RegisterInterstitialAdAction()
     {
         interstitialAd.OnAdLoaded += OnInterstitialAdLoaded;
@@ -69,16 +71,18 @@ public class GoogleAdsMgr : MonoBehaviour
         interstitialAd.OnAdOpening += OnInterstitialAdOpening;
         interstitialAd.OnAdLeavingApplication += OnInterstitialAdLeacingApplication;
     }
+
+    //注册奖励广告回调
     private void RegisterRewardedVideoAdAction()
     {
-		rewardBasedVideoAd.OnAdLoaded+=OnRewardBaseVideoAdLoad;
-		rewardBasedVideoAd.OnAdFailedToLoad+=OnRewardBaseVideoAdFailedToLoad;
-		rewardBasedVideoAd.OnAdOpening+=OnRewardBaseVideoAdOpening;
-		rewardBasedVideoAd.OnAdStarted+=OnRewardBaseVideoAdStarted;
-		rewardBasedVideoAd.OnAdRewarded+=OnRewardBaseVideoAdRewarded;
-		rewardBasedVideoAd.OnAdClosed+=OnRewardBaseVideoAdClosed;
-		rewardBasedVideoAd.OnAdLeavingApplication+=OnRewardBaseVideoAdLeavingApplication;
-	}
+        rewardBasedVideoAd.OnAdLoaded += OnRewardBaseVideoAdLoad;
+        rewardBasedVideoAd.OnAdFailedToLoad += OnRewardBaseVideoAdFailedToLoad;
+        rewardBasedVideoAd.OnAdOpening += OnRewardBaseVideoAdOpening;
+        rewardBasedVideoAd.OnAdStarted += OnRewardBaseVideoAdStarted;
+        rewardBasedVideoAd.OnAdRewarded += OnRewardBaseVideoAdRewarded;
+        rewardBasedVideoAd.OnAdClosed += OnRewardBaseVideoAdClosed;
+        rewardBasedVideoAd.OnAdLeavingApplication += OnRewardBaseVideoAdLeavingApplication;
+    }
 
     //加载横幅广告
     private void LoadBanner()
@@ -112,6 +116,8 @@ public class GoogleAdsMgr : MonoBehaviour
             rewardBasedVideoAd.LoadAd(adRequest, rewardedVideoId);
         }
     }
+
+    ////////////////////////////////////////////callback/////////////////////////////////////////////////////
     private void BannerAdLeavingApplication(object sender, EventArgs e)
     {
         // throw new NotImplementedException();
@@ -159,7 +165,7 @@ public class GoogleAdsMgr : MonoBehaviour
     {
         // throw new NotImplementedException();
     }
-	    private void OnRewardBaseVideoAdLeavingApplication(object sender, EventArgs e)
+    private void OnRewardBaseVideoAdLeavingApplication(object sender, EventArgs e)
     {
         throw new NotImplementedException();
     }
