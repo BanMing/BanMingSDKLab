@@ -1,17 +1,10 @@
 package com.phone.nativeshare;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.widget.Toast;
-
-import java.io.File;
-import java.nio.file.FileSystem;
 
 
 public class NativeShare {
@@ -29,7 +22,7 @@ public class NativeShare {
         this.activity = activity;
     }
 
-    //分享文字
+    //分享纯文字
     public void ShareText(String content) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
@@ -38,40 +31,40 @@ public class NativeShare {
         Intent chooserIntent = Intent.createChooser(intent, "share to：");
         this.activity.startActivity(chooserIntent);
     }
+
     //分享链接
-    public void ShareHtml(String content,String url) {
-//        File file=new File(url);
-//        CreateToast(url);
-//        CreateToast(String.valueOf(file.exists()));
+    public void ShareHtml(String content, String url) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("text/html");
-        Uri uri= Uri.parse(url);
+        Uri uri = Uri.parse(url);
         intent.putExtra(Intent.EXTRA_TEXT, content);
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         intent.putExtra(Intent.EXTRA_SUBJECT, "share");
         Intent chooserIntent = Intent.createChooser(intent, "share to：");
         this.activity.startActivity(chooserIntent);
     }
-    //分享链接
-    public void ShareTextStar(String content,String Uri) {
+
+    //分享文本类文件
+    public void ShareAllText(String content, String filePath) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("text/*");
+        if (filePath != null && TextUtils.isEmpty(filePath)) {
+            Uri uri = Uri.parse(filePath);
+        }
+        if (content != null && TextUtils.isEmpty(content)) {
+            intent.putExtra(Intent.EXTRA_TEXT, content);
+        }
 
-        intent.putExtra(Intent.EXTRA_TEXT, content);
         Intent chooserIntent = Intent.createChooser(intent, "share to：");
         this.activity.startActivity(chooserIntent);
     }
-    //分享图片
-    public void ShareImage(String content,String path) {
+
+    //分享图片 这个路径是沙盒下的路径 重新建
+    public void ShareImage(String content, String path) {
         Intent intent = new Intent();
-//        Base64.decode("app_icon");
-//        Bitmap bmp = BitmapFactory.decodeFile("app_icon");
-//        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-        File file=new File(path);
-        CreateToast(String.valueOf(file.exists()));
-        Uri uri=Uri.parse(path);
+        Uri uri = Uri.parse(path);
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_TEXT, content);
@@ -81,7 +74,28 @@ public class NativeShare {
         this.activity.startActivity(chooserIntent);
     }
 
+    //公用分享 content 文字 | filePath 文件路径 | intent 分享类型 | 分享标题
+    public void Share(String content, String filePath, String intentType, String subject, String title) {
+        if (intentType == null || TextUtils.isEmpty(intentType)) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType(intentType);
+        if (filePath != null && TextUtils.isEmpty(filePath)) {
+            Uri uri = Uri.parse(filePath);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+        }
+        if (content != null && TextUtils.isEmpty(content)) {
+            intent.putExtra(Intent.EXTRA_TEXT, content);
+        }
+        if (subject != null && TextUtils.isEmpty(subject)) {
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        }
+        Intent chooserIntent = Intent.createChooser(intent, title == null ? "share" : title);
+        this.activity.startActivity(chooserIntent);
 
+    }
 
     /*
      * 创建Toast
