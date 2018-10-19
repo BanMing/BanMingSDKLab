@@ -51,7 +51,7 @@ public class Test : MonoBehaviour
     //String packageName, String className, String content, String title, String subject
     public void ShareText()
     {
-        PhoneNativeShare.Call("ShareText", "https://www.baidu.com/");
+        PhoneNativeShare.Call("ShareText", "Pool Ball Kingdom - The BRAND-NEW pool game now is released on Google Play!\nlink to  https://play.google.com/store/apps/details?id=com.poolballkingx.googleplay to download instantly! Share our game with your friends, families, or anyone who likes unique pool game! Challege 220+ various interesting levels and to be the king of Pool Ball Kingdom!");
     }
     string html="<html><head><meta charset=\"utf-8\"><title>菜鸟教程(runoob.com)</title></head><body><h1>我的第一个标题</h1><p>我的第一个段落。</p></body></html>";
     void OnGUI()
