@@ -3,6 +3,7 @@ package com.unity.gallerylibrary;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +12,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.widget.Toast;
@@ -132,7 +132,13 @@ public class GalleryManager extends Activity {
     //打开相机
     private void TakePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "temp.jpg")));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            File outFile = new File(UnityUsePicturePath);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, getImageContentUri(outFile));
+        } else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(UnityUsePicturePath)));
+        }
+
         startActivityForResult(intent, PHOTOHRAPH);
     }
 
@@ -170,17 +176,13 @@ public class GalleryManager extends Activity {
 
 
         } else if (requestCode == PHOTOHRAPH) {
-            String path = Environment.getExternalStorageDirectory() + "/temp.jpg";
-
-            File picture = new File(path);
+            String path = UnityUsePicturePath;
             if (isCutPicture) {
+                File picture = new File(path);
                 StartPhotoZoom(Uri.fromFile(picture));
-                picture.delete();
             } else {
-                String newPath = UnityUsePicturePath;
-                CopyFile(path, newPath);
                 //调用unity中方法 GetImagePath（path）
-                UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", newPath);
+                UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", path);
                 finish();
             }
 
@@ -319,4 +321,37 @@ public class GalleryManager extends Activity {
     }
 
 
+    /**
+     * 转换 content:// uri
+     * 7.0以后使用
+     *
+     * @param imageFile
+     * @return
+     */
+    public Uri getImageContentUri(File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Images.Media._ID},
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[]{filePath}, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor
+                    .getColumnIndex(MediaStore.MediaColumns._ID));
+            Uri baseUri = Uri.parse("content://media/external/images/media");
+            return Uri.withAppendedPath(baseUri, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
+
+
+    }
 }
