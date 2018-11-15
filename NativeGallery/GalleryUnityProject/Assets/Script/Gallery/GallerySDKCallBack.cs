@@ -7,13 +7,8 @@ using System;
 public class GallerySDKCallBack : MonoBehaviour
 {
     public Action<Texture> SetRawImageActon;
-    public void DebugInfo(string info)
-    {
-        Debug.Log("Android Debug:" + info);
-    }
-
+ 
 	public void GetImagePath(string path){
-		DebugInfo("GetImagePath:"+path);
         StartCoroutine(GetImageByPath(path));
 	}
     private IEnumerator GetImageByPath(string path){

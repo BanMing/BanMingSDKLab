@@ -58,9 +58,9 @@ public class GalleryManager extends Activity {
         UnityPersistentDataPath = this.getIntent().getStringExtra("UnityPersistentDataPath");
         UnityUsePicturePath = UnityPersistentDataPath + "/UNITY_GALLERY_PICTUER.png";
         isCutPicture = this.getIntent().getBooleanExtra("isCutPicture", false);
-        if (type.equals("takePhoto")) {
+        if (type.equals("Camera")) {
             OpenTakePhoto();
-        } else if (type.equals("openGallery")) {
+        } else if (type.equals("Gallery")) {
             CheckAndOpenStoragePermission();
         }
     }
@@ -74,11 +74,11 @@ public class GalleryManager extends Activity {
     //先检测权限
     public void OpenTakePhoto() {
         if (Build.VERSION.SDK_INT > 22) {
-            if (this.checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if ((this.checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)||(this.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
 
                 //先判断有没有权限 ，没有就在这里进行权限的申请
                 this.requestPermissions(
-                        new String[]{android.Manifest.permission.CAMERA}, CAMERA_OK);
+                        new String[]{android.Manifest.permission.CAMERA,android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_OK);
             } else {
                 TakePhoto();
             }
@@ -109,11 +109,11 @@ public class GalleryManager extends Activity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == CAMERA_OK) {
             //获得相机权限
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 TakePhoto();
             } else {
                 //这里是拒绝给APP摄像头权限，给个提示什么的说明一下都可以。
-                Toast.makeText(this, "请手动打开相机权限", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "请手动打开相机或储存权限", Toast.LENGTH_SHORT).show();
                 OpenSettings(this);
                 finish();
             }
