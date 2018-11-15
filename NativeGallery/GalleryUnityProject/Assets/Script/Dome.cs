@@ -15,33 +15,24 @@ public class Dome : MonoBehaviour
         DebugCanvas.SetActive(true);
     }
 
-      void OnGUI()
+    void OnGUI()
     {
         if (GUILayout.Button("Take Photo", GUILayout.Width(200), GUILayout.Height(200)))
         {
-            // GetPhoto("takePhoto");
+            GalleryManager.Instance.GetPhoto(GetPhotoType.Carmera, (texture) => { rawImage.texture = texture; });
         }
         if (GUILayout.Button("Open Gallery", GUILayout.Width(200), GUILayout.Height(200)))
         {
-            // GetPhoto("openGallery");
+            GalleryManager.Instance.GetPhoto(GetPhotoType.Gallery, (texture) => { rawImage.texture = texture; });
         }
         if (GUILayout.Button("Show Image", GUILayout.Width(200), GUILayout.Height(200)))
         {
 
             StartCoroutine(GetImageByPath(Application.persistentDataPath + "/UNITY_GALLERY_PICTUER.png"));
         }
-        if (GUILayout.Button("Open Permission", GUILayout.Width(200), GUILayout.Height(200)))
-        {
-            // AndroidJavaObject intentObject = new AndroidJavaObject("android.content.Intent", unityActivity, gallerySdk);
-
-            // intentObject.Call<AndroidJavaObject>("putExtra", "type", "openGallery");
-            // intentObject.Call<AndroidJavaObject>("putExtra", "UnityPersistentDataPath", Application.persistentDataPath);
-            // intentObject.Call<AndroidJavaObject>("putExtra", "isCutPicture", true);
-            // unityActivity.Call("startActivity", intentObject);
-        }
     }
 
-        private IEnumerator GetImageByPath(string path)
+    private IEnumerator GetImageByPath(string path)
     {
         yield return new WaitForSeconds(1);
         WWW www = new WWW("file://" + path);

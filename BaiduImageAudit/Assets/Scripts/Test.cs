@@ -46,7 +46,7 @@ public class Test : MonoBehaviour
         if (GUILayout.Button("Image Censor", GUILayout.Width(100), GUILayout.Height(100)))
         {
 
-            imagePath = Application.dataPath + "Resources/image/" + imagePath;
+            imagePath = Application.dataPath + "/Resources/image/" + imagePath;
             Debug.Log("imagePath:" + imagePath);
             if (!File.Exists(imagePath))
             {
@@ -72,8 +72,8 @@ public class Test : MonoBehaviour
         }
     }
 
-    IEnumerator GetImageDefined(string path){
-        WWW www=new WWW(path);
+    // IEnumerator GetImageDefined(string path){
+    //     WWW www=new WWW(path);
         
-    }
+    // }
 }
