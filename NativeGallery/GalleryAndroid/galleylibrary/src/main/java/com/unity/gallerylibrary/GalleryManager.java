@@ -14,9 +14,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.unity3d.player.UnityPlayer;
+import com.unity3d.player.UnityPlayerActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,17 +61,27 @@ public class GalleryManager extends Activity {
         UnityPersistentDataPath = this.getIntent().getStringExtra("UnityPersistentDataPath");
         UnityUsePicturePath = UnityPersistentDataPath + "/UNITY_GALLERY_PICTUER.png";
         isCutPicture = this.getIntent().getBooleanExtra("isCutPicture", false);
+//        Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
         if (type.equals("Camera")) {
             OpenTakePhoto();
         } else if (type.equals("Gallery")) {
             CheckAndOpenStoragePermission();
+        }else {
+//            finish();
         }
+
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+//            finish();
+            Back2Unity();
+        }
+
+//        KeyEvent.KEYCODE_
+        return super.onKeyDown(keyCode,event);
     }
 
     //先检测权限
@@ -115,7 +128,7 @@ public class GalleryManager extends Activity {
                 //这里是拒绝给APP摄像头权限，给个提示什么的说明一下都可以。
                 Toast.makeText(this, "请手动打开相机或储存权限", Toast.LENGTH_SHORT).show();
                 OpenSettings(this);
-                finish();
+//                finish();
             }
         } else if (requestCode == STORAGE_OK) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -124,7 +137,7 @@ public class GalleryManager extends Activity {
                 //这里是拒绝给存储权限，给个提示什么的说明一下都可以。
                 Toast.makeText(this, "请手动打开存储权限", Toast.LENGTH_SHORT).show();
                 OpenSettings(this);
-                finish();
+//                finish();
             }
         }
     }
@@ -154,12 +167,12 @@ public class GalleryManager extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == NONE) {
-            finish();
+//            finish();
             return;
         }
         if (PHOTO_REQUEST_CODE == requestCode) {
             if (data == null) {
-                finish();
+//                finish();
                 return;
             }
             if (isCutPicture) {
@@ -171,7 +184,7 @@ public class GalleryManager extends Activity {
                 CopyFile(imageFlie.getPath(), newPath);
                 //调用unity中方法 GetImagePath（path）
                 UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", newPath);
-                finish();
+//                finish();
             }
 
 
@@ -183,7 +196,8 @@ public class GalleryManager extends Activity {
             } else {
                 //调用unity中方法 GetImagePath（path）
                 UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", path);
-                finish();
+//                finish();
+//                Back2Unity();
             }
 
 
@@ -198,12 +212,13 @@ public class GalleryManager extends Activity {
                 try {
                     SaveBitmap(photo);
                 } catch (IOException e) {
-                    finish();
+//                    finish();
                     e.printStackTrace();
                 }
             }
 
         }
+
     }
 
     //对图片修改
@@ -262,7 +277,7 @@ public class GalleryManager extends Activity {
             fOut = new FileOutputStream(path);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            finish();
+//            finish();
         }
         //将bitmap对象写入本地路径中
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
@@ -270,17 +285,17 @@ public class GalleryManager extends Activity {
             fOut.flush();
         } catch (IOException e) {
             e.printStackTrace();
-            finish();
+//            finish();
         }
         try {
             fOut.close();
         } catch (IOException e) {
             e.printStackTrace();
-            finish();
+//            finish();
         }
         //调用unity中方法 GetImagePath（path）
         UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", path);
-        finish();
+//        finish();
     }
 
     /**
@@ -352,6 +367,11 @@ public class GalleryManager extends Activity {
             }
         }
 
+    }
 
+    private  void Back2Unity(){
+        Intent intent=new Intent(this,UnityPlayerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

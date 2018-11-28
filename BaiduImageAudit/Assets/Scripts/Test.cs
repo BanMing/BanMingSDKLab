@@ -6,9 +6,9 @@ using UnityEngine;
 public class Test : MonoBehaviour
 {
 
-    const string APP_ID = "14738100";
-    const string API_KEY = "vVftotywSAS1SibvhOq0sMGK";
-    const string SECRET_KEY = "LcGaTVYCw45Osiy6XhxRSQkkYItmE7ig";
+    const string APP_ID = "14899886";
+    const string API_KEY = "DdUfabKxwGq8Aniz0HG8BLIy";
+    const string SECRET_KEY = "FlwfEBwmNa5MXZcdluwVEOosTB6LCgRV";
     private string imagePath;
     // private ÷
     /// <summary>
@@ -29,10 +29,10 @@ public class Test : MonoBehaviour
     /// <param name="path"></param>
     private string ImageCensor(string path)
     {
-        var client = new Baidu.Aip.ContentCensor.ImageCensor(API_KEY, SECRET_KEY);
+        var client = new Baidu.Aip.ImageClassify.ImageClassify(API_KEY, SECRET_KEY);
         var image = File.ReadAllBytes(path);
         Debug.Log(image.Length);
-        var res = client.UserDefined(image);
+        var res = client.AdvancedGeneral(image);
         return res.ToString();
     }
     /// <summary>
@@ -66,8 +66,8 @@ public class Test : MonoBehaviour
             var textures = Resources.LoadAll<Texture2D>("image");
             Debug.Log(textures.Length);
             var data = textures[0].EncodeToJPG();
-            var client = new Baidu.Aip.ContentCensor.ImageCensor(API_KEY, SECRET_KEY);
-            var res = client.UserDefined(data);
+            var client = new Baidu.Aip.ImageClassify.ImageClassify(API_KEY, SECRET_KEY);
+            var res = client.AdvancedGeneral(data);
             // Texture
         }
     }
