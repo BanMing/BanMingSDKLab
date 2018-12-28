@@ -67,17 +67,23 @@ public class GalleryManager extends Activity {
         } else if (type.equals("Gallery")) {
             CheckAndOpenStoragePermission();
         }else {
-//            finish();
+            finish();
         }
 
     }
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        setIntent(intent);
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
 //            finish();
-            Back2Unity();
+            UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", "");
+//            Back2Unity();
         }
 
 //        KeyEvent.KEYCODE_
@@ -128,7 +134,7 @@ public class GalleryManager extends Activity {
                 //这里是拒绝给APP摄像头权限，给个提示什么的说明一下都可以。
                 Toast.makeText(this, "请手动打开相机或储存权限", Toast.LENGTH_SHORT).show();
                 OpenSettings(this);
-//                finish();
+                finish();
             }
         } else if (requestCode == STORAGE_OK) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -137,7 +143,7 @@ public class GalleryManager extends Activity {
                 //这里是拒绝给存储权限，给个提示什么的说明一下都可以。
                 Toast.makeText(this, "请手动打开存储权限", Toast.LENGTH_SHORT).show();
                 OpenSettings(this);
-//                finish();
+                finish();
             }
         }
     }
@@ -167,12 +173,13 @@ public class GalleryManager extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == NONE) {
-//            finish();
+            UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", "");
+            finish();
             return;
         }
         if (PHOTO_REQUEST_CODE == requestCode) {
             if (data == null) {
-//                finish();
+                finish();
                 return;
             }
             if (isCutPicture) {
@@ -184,19 +191,21 @@ public class GalleryManager extends Activity {
                 CopyFile(imageFlie.getPath(), newPath);
                 //调用unity中方法 GetImagePath（path）
                 UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", newPath);
-//                finish();
+                finish();
             }
 
 
         } else if (requestCode == PHOTOHRAPH) {
+
             String path = UnityUsePicturePath;
+            UnityPlayer.UnitySendMessage("GallerySDKCallBack", "DebugLog", path);
             if (isCutPicture) {
                 File picture = new File(path);
                 StartPhotoZoom(Uri.fromFile(picture));
             } else {
                 //调用unity中方法 GetImagePath（path）
                 UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", path);
-//                finish();
+                finish();
 //                Back2Unity();
             }
 
@@ -212,7 +221,7 @@ public class GalleryManager extends Activity {
                 try {
                     SaveBitmap(photo);
                 } catch (IOException e) {
-//                    finish();
+                    finish();
                     e.printStackTrace();
                 }
             }
@@ -277,7 +286,7 @@ public class GalleryManager extends Activity {
             fOut = new FileOutputStream(path);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-//            finish();
+            finish();
         }
         //将bitmap对象写入本地路径中
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
@@ -285,17 +294,17 @@ public class GalleryManager extends Activity {
             fOut.flush();
         } catch (IOException e) {
             e.printStackTrace();
-//            finish();
+            finish();
         }
         try {
             fOut.close();
         } catch (IOException e) {
             e.printStackTrace();
-//            finish();
+            finish();
         }
         //调用unity中方法 GetImagePath（path）
         UnityPlayer.UnitySendMessage("GallerySDKCallBack", "GetImagePath", path);
-//        finish();
+        finish();
     }
 
     /**
