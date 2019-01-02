@@ -28,7 +28,12 @@
             </intent-filter>
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
-        <!-- 打开相册及相机 设置为透明 -->
-    <activity android:name="com.unity.gallerylibrary.GalleryManager" android:theme="@android:style/Theme.Translucent"/>
+           <!-- 打开相册及相机 设置为透明 -->
+        <!--  android:screenOrientation="portrait" android:configChanges="orientation|screenSize|keyboardHidden|keyboard|"解决相机Activity无法关闭问题 -->
+        <activity android:name="com.unity.gallerylibrary.GalleryManager"  android:screenOrientation="portrait" android:configChanges="orientation|screenSize|keyboardHidden|keyboard|">
+           <!-- 解决这个问题 Only fullscreen opaque activities can request orientation -->
+            <item name="android:windowIsTranslucent">false</item>
+            <item name="android:windowDisablePreview">true</item>
+        </activity>
     </application>
 </manifest>
