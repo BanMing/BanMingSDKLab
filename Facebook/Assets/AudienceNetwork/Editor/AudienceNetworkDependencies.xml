@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dependencies>
+    <androidPackages>
+        <androidPackage spec="com.android.support:support-annotations:28.0.0" />
+        <androidPackage spec="com.facebook.android:audience-network-sdk:5.6+" />
+    </androidPackages>
+    <iosPods>
+        <iosPod name="FBAudienceNetwork" version="~>5.6.0" />
+    </iosPods>
+</dependencies>
